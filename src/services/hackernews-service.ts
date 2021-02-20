@@ -18,6 +18,7 @@ export interface Story {
     time: number
     title: string
     type: 'story'
+    url: string
 }
 
 export const HACKER_NEWS_API_BASE = 'https://hacker-news.firebaseio.com'
