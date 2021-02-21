@@ -3,6 +3,7 @@ body {
 }
 
 .story h2::before {
+    color: gray;
     content: counter(stories) '. ';
     counter-increment: stories;
 }
@@ -14,8 +15,11 @@ body {
     justify-content: start;
     min-height: 40px;
     padding: 15px;
+}
+
+.story.withcontent {
     border-bottom: 2px solid lightgray;
-    animation: fadein 0.5s;
+    animation: fadein 1s;
 }
 
 h2 {

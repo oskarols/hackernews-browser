@@ -32,7 +32,7 @@ export const StoryItem = (props: StoryItemProps) => {
         return <article className="story"></article>
     } else {
         return (
-            <article className="story">
+            <article className="story withcontent">
                 <h2>
                     <a rel="noreferrer" href={story.url}>
                         {story.title}
