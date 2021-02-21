@@ -15,19 +15,23 @@ export const StoryItem = (props: StoryItemProps) => {
     const [story, setStoryData] = useState<Story>()
 
     useEffect(() => {
-        props.storyData.then((story) => {
-            setStoryData(story)
-        })
+        props.storyData
+            .then((story) => {
+                setStoryData(story)
+            })
+            .catch(() => {
+                // TODO
+            })
     }, [props.storyData])
 
     if (story === undefined) {
         // we want to render a container with height here, otherwise
         // the infinite scroll component will trigger too many fetches
         // upon scrolling to bottom
-        return <div className="story"></div>
+        return <div className="story" role="article"></div>
     } else {
         return (
-            <div className="story">
+            <div className="story" role="article">
                 <h2>
                     <a rel="noreferrer" href={story.url}>
                         {story.title}

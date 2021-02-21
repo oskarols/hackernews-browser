@@ -43,15 +43,17 @@ export const StoryList = () => {
     }, [getStoryPage, memoizedAddMoreStories])
 
     return (
-        <InfiniteScroll
-            dataLength={stories.length}
-            next={memoizedAddMoreStories}
-            hasMore={hasMore}
-            loader={<div>Loading</div>}
-        >
-            {stories.map((story, i) => (
-                <StoryItem key={i} storyData={story}></StoryItem>
-            ))}
-        </InfiniteScroll>
+        <div className="StoryList" role="feed">
+            <InfiniteScroll
+                dataLength={stories.length}
+                next={memoizedAddMoreStories}
+                hasMore={hasMore}
+                loader={<div>Loading</div>}
+            >
+                {stories.map((story, i) => (
+                    <StoryItem key={i} storyData={story}></StoryItem>
+                ))}
+            </InfiniteScroll>
+        </div>
     )
 }
