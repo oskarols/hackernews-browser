@@ -1,11 +1,13 @@
+import { getNewStoryIds } from '../services/hackernews-service'
+
 /**
  * Creates generator for paginating through set of numbers.
  *
  * @param storyIds
  * @param pageSize
  */
-export function* createPageGenerator(storyIds: number[], pageSize: number): Generator<number[]> {
-    let remainingStoryIds = storyIds
+export async function* createPageGenerator(pageSize: number): AsyncGenerator<number[]> {
+    let remainingStoryIds = await getNewStoryIds()
 
     while (remainingStoryIds.length !== 0) {
         const pageIds = remainingStoryIds.slice(0, pageSize)
