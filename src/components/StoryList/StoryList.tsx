@@ -5,17 +5,17 @@ import { getPaginationSize } from '../../lib/getPaginationSize'
 import { getStory, Story } from '../../services/hackernews-service'
 import { LoadingIndicator } from '../LoadingIndicator/LoadingIndicator'
 import { StoryItem } from '../StoryItem/StoryItem'
+import './StoryList.css'
 
 export const StoryList = () => {
     const [stories, setStories] = useState<Promise<Story>[]>([])
     const [getStoryPage, setStoryPageGenerator] = useState<ReturnType<typeof createPageGenerator>>()
     const [hasMore, setHasMore] = useState(true)
-    const STORY_ITEM_HEIGHT = 30
+    const STORY_ITEM_HEIGHT = 40
 
     // responsible for fetching additional stories
     const memoizedAddMoreStories = useCallback(
         async function addMoreStories() {
-            console.log('calling add more stories')
             if (!getStoryPage) {
                 return
             }
@@ -30,7 +30,7 @@ export const StoryList = () => {
         [getStoryPage],
     )
 
-    // set paginaton generator
+    // set pagination generator
     useEffect(() => {
         const pageSize = getPaginationSize(STORY_ITEM_HEIGHT)
         setStoryPageGenerator(createPageGenerator(pageSize))
@@ -49,10 +49,10 @@ export const StoryList = () => {
                 dataLength={stories.length}
                 next={memoizedAddMoreStories}
                 hasMore={hasMore}
-                loader={LoadingIndicator}
+                loader={LoadingIndicator()}
             >
                 {stories.map((story, i) => (
-                    <StoryItem key={i} storyData={story}></StoryItem>
+                    <StoryItem key={i} storyData={story} />
                 ))}
             </InfiniteScroll>
         </div>
