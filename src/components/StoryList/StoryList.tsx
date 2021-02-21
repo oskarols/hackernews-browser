@@ -11,11 +11,7 @@ export const StoryList = () => {
     const [hasMore, setHasMore] = useState(true)
     const STORY_ITEM_HEIGHT = 30
 
-    useEffect(() => {
-        const pageSize = getPaginationSize(STORY_ITEM_HEIGHT)
-        setStoryPageGenerator(createPageGenerator(pageSize))
-    }, [])
-
+    // responsible for fetching additional stories
     const memoizedAddMoreStories = useCallback(
         async function addMoreStories() {
             console.log('calling add more stories')
@@ -32,6 +28,12 @@ export const StoryList = () => {
         },
         [getStoryPage],
     )
+
+    // set paginaton generator
+    useEffect(() => {
+        const pageSize = getPaginationSize(STORY_ITEM_HEIGHT)
+        setStoryPageGenerator(createPageGenerator(pageSize))
+    }, [])
 
     // initial fetch of stories
     useEffect(() => {
