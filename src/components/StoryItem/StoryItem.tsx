@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Story } from '../../services/hackernews-service'
-import './Story.css'
+import './StoryItem.css'
 
 // TODO: better naming
 
@@ -17,7 +17,7 @@ interface StoryProps {
 //     return typeof storyData === 'object'
 // }
 
-export const StoryComponent = (props: StoryProps) => {
+export const StoryItem = (props: StoryProps) => {
     const [story, setStoryData] = useState<Story>()
 
     useEffect(() => {
