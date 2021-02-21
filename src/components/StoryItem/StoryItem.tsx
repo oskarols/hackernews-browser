@@ -29,20 +29,20 @@ export const StoryItem = (props: StoryItemProps) => {
         // we want to render a container with height here, otherwise
         // the infinite scroll component will trigger too many fetches
         // upon scrolling to bottom
-        return <div className="story" role="article"></div>
+        return <article className="story"></article>
     } else {
         return (
-            <div className="story" role="article">
+            <article className="story">
                 <h2>
                     <a rel="noreferrer" href={story.url}>
                         {story.title}
                     </a>
                 </h2>
 
-                <p className="datetime">
-                    <RelativeTime timestamp={story.time} />, by {story.by}
+                <p className="metadata">
+                    <RelativeTime timestamp={story.time} /> / {story.by}
                 </p>
-            </div>
+            </article>
         )
     }
 }

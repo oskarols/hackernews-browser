@@ -3,15 +3,40 @@ body {
 }
 
 .story h2::before {
-    counter-increment: stories;
     content: counter(stories) '. ';
+    counter-increment: stories;
 }
 
 .story {
-    height: 50px;
     display: flex;
-    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    min-height: 40px;
+    padding: 15px;
+    border-bottom: 2px solid lightgray;
     animation: fadein 0.5s;
+}
+
+h2 {
+    justify-content: start;
+    order: 1;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+h2 a {
+    color: black;
+    text-decoration: none;
+}
+
+.metadata {
+    flex-basis: 100%;
+    order: 2;
+    margin: 0;
+    color: gray;
+    text-align: left;
 }
 
 @keyframes fadein {
