@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Story } from '../../services/hackernews-service'
+import { RelativeTime } from '../RelativeTime/RelativeTime'
 import './StoryItem.css'
 
 interface StoryItemProps {
@@ -37,8 +38,10 @@ export const StoryItem = (props: StoryItemProps) => {
                         {story.title}
                     </a>
                 </h2>
-                <p>Posted: {story.time}</p>
-                <p>By: {story.by}</p>
+
+                <p className="datetime">
+                    <RelativeTime timestamp={story.time} />, by {story.by}
+                </p>
             </div>
         )
     }
