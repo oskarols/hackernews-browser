@@ -12,7 +12,7 @@ import { clientsClaim } from 'workbox-core'
 import { ExpirationPlugin } from 'workbox-expiration'
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
-import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies'
+import { NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies'
 import { NEW_STORIES_PATH, STORY_PATH_TEMPLATE } from './services/hackernews-service'
 
 declare const self: ServiceWorkerGlobalScope
@@ -85,7 +85,7 @@ self.addEventListener('message', (event) => {
  */
 registerRoute(
     ({ url }) => url.pathname === NEW_STORIES_PATH,
-    new CacheFirst({
+    new NetworkFirst({
         cacheName: 'hnews-stories-list',
         plugins: [new ExpirationPlugin({ maxEntries: 10 })],
     }),
@@ -96,7 +96,7 @@ registerRoute(
  */
 registerRoute(
     ({ url }) => url.pathname.startsWith(STORY_PATH_TEMPLATE),
-    new CacheFirst({
+    new NetworkFirst({
         cacheName: 'hnews-stories',
         plugins: [new ExpirationPlugin({ maxEntries: 1000 })],
     }),
