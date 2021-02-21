@@ -1,0 +1,63 @@
+import React from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { createPageGenerator } from '../../../lib/createPageGenerator'
+import { StoryItem } from '../../StoryItem/StoryItem'
+import { render, waitFor, screen, act } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
+import { StoryList } from '../StoryList'
+
+jest.mock('../../StoryItem/StoryItem')
+jest.mock('react-infinite-scroll-component', () => ({
+    __esModule: true,
+    default: jest.fn(),
+}))
+jest.mock('../../../lib/createPageGenerator', () => ({
+    createPageGenerator: jest.fn(),
+}))
+
+const mockedStoryItem = StoryItem as jest.Mock
+const mockedInfiniteScroll = InfiniteScroll as jest.Mock
+const mockedCreatePageGenerator = createPageGenerator as jest.Mock
+
+describe('StoryList', () => {
+    beforeEach(() => {
+        jest.clearAllMocks()
+        mockedInfiniteScroll.mockImplementation((props) => {
+            return <div>{props.children}</div>
+        })
+        mockedStoryItem.mockImplementation((props) => {
+            return <article>test-story</article>
+        })
+    })
+
+    it('requests an initial set of stories and renders items for them', async () => {
+        mockedCreatePageGenerator.mockImplementation(async function* test() {
+            yield [1, 2, 3]
+            yield [4, 5, 6]
+        })
+        render(<StoryList />)
+        const articles = await screen.findAllByRole('article')
+        expect(articles).toHaveLength(3)
+        expect(mockedCreatePageGenerator).toHaveBeenCalledTimes(1)
+    })
+
+    it('requests even more stories via the InfiniteScroll component', async () => {
+        mockedCreatePageGenerator.mockImplementation(async function* test() {
+            yield [1, 2, 3]
+            yield [4, 5, 6]
+        })
+        let fetchMoreStories: any
+        mockedInfiniteScroll.mockImplementation((props) => {
+            fetchMoreStories = props.next
+            return <div>{props.children}</div>
+        })
+        render(<StoryList />)
+        await screen.findAllByRole('article')
+        fetchMoreStories()
+        await waitFor(async () => {
+            const articles = await screen.findAllByRole('article')
+            expect(articles).toHaveLength(6)
+        })
+        expect(mockedCreatePageGenerator).toHaveBeenCalledTimes(1)
+    })
+})
