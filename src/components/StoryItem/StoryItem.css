@@ -1,3 +1,12 @@
+body {
+    counter-reset: stories;
+}
+
+.story h2::before {
+    counter-increment: stories;
+    content: counter(stories) '. ';
+}
+
 .story {
     height: 50px;
     display: flex;
