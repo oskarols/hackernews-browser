@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Story } from '../../services/hackernews-service'
 import './StoryItem.css'
 
-// TODO: better naming
-
-interface StoryProps {
+interface StoryItemProps {
     /**
      * Can be a story ID, in which case the fetching of story
      * is still in progress. Otherwise will have complete
@@ -13,7 +11,7 @@ interface StoryProps {
     storyData: Promise<Story>
 }
 
-export const StoryItem = (props: StoryProps) => {
+export const StoryItem = (props: StoryItemProps) => {
     const [story, setStoryData] = useState<Story>()
 
     useEffect(() => {
