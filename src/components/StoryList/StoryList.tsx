@@ -3,6 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { createPageGenerator } from '../../lib/createPageGenerator'
 import { getPaginationSize } from '../../lib/getPaginationSize'
 import { getStory, Story } from '../../services/hackernews-service'
+import { LoadingIndicator } from '../LoadingIndicator/LoadingIndicator'
 import { StoryItem } from '../StoryItem/StoryItem'
 
 export const StoryList = () => {
@@ -48,7 +49,7 @@ export const StoryList = () => {
                 dataLength={stories.length}
                 next={memoizedAddMoreStories}
                 hasMore={hasMore}
-                loader={<div>Loading</div>}
+                loader={LoadingIndicator}
             >
                 {stories.map((story, i) => (
                     <StoryItem key={i} storyData={story}></StoryItem>
