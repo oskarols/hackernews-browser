@@ -37,7 +37,9 @@ export const StoryList = () => {
 
     // initial fetch of stories
     useEffect(() => {
-        memoizedAddMoreStories()
+        if (getStoryPage && memoizedAddMoreStories) {
+            memoizedAddMoreStories()
+        }
     }, [getStoryPage, memoizedAddMoreStories])
 
     return (

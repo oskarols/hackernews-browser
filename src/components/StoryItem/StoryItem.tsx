@@ -21,7 +21,10 @@ export const StoryItem = (props: StoryItemProps) => {
     }, [props.storyData])
 
     if (story === undefined) {
-        return null
+        // we want to render a container with height here, otherwise
+        // the infinite scroll component will trigger too many fetches
+        // upon scrolling to bottom
+        return <div className="story"></div>
     } else {
         return (
             <div className="story">
