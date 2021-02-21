@@ -13,10 +13,6 @@ interface StoryProps {
     storyData: Promise<Story>
 }
 
-// function hasStory(storyData: StoryProps['storyData']): storyData is Story {
-//     return typeof storyData === 'object'
-// }
-
 export const StoryItem = (props: StoryProps) => {
     const [story, setStoryData] = useState<Story>()
 
@@ -24,7 +20,7 @@ export const StoryItem = (props: StoryProps) => {
         props.storyData.then((story) => {
             setStoryData(story)
         })
-    }, [])
+    }, [props.storyData])
 
     if (story === undefined) {
         return null

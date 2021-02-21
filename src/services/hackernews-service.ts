@@ -1,14 +1,5 @@
 export type NewStoriesResponse = number[]
 
-// TODO: tie this to Story interface
-enum ItemType {
-    Job = 'job',
-    Story = 'story',
-    Comment = 'comment',
-    Poll = 'poll',
-    PollOpt = 'pollopt',
-}
-
 export interface Story {
     by: string
     descendants: number
@@ -32,7 +23,6 @@ export const STORY_URL_TEMPLATE = HACKER_NEWS_API_BASE + STORY_PATH_TEMPLATE
  * Fetch list of newest story ids.
  */
 export const getNewStoryIds = (): Promise<number[]> => {
-    // TODO: cors here seems necessary
     return fetch(NEW_STORIES_URL, { mode: 'cors' })
         .then((response) => {
             return (response.json() as unknown) as Promise<number[]> // TODO fix type
@@ -43,7 +33,8 @@ export const getNewStoryIds = (): Promise<number[]> => {
 }
 
 export const getStory = (storyId: number): Promise<Story> => {
-    return fetch(STORY_URL_TEMPLATE + storyId, { mode: 'cors' })
+    // TODO: fix the url template here somehow
+    return fetch(STORY_URL_TEMPLATE + storyId + '.json', { mode: 'cors' })
         .then((response) => {
             return (response.json() as unknown) as Promise<Story>
         })
