@@ -13,6 +13,11 @@ interface StoryListProps {
 
 /**
  * Does an infinite scroll of hacker news stories.
+ *
+ * Contains concept of "page", where a page is a set of story ids.
+ *
+ * Each increment of the infinite scroll will add another page of
+ * these ids that will be passed for rendering to children.
  */
 export const StoryList = (props: StoryListProps) => {
     const [stories, setStories] = useState<Promise<Story>[]>([])
