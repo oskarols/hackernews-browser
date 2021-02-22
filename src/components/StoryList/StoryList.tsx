@@ -7,7 +7,11 @@ import { LoadingIndicator } from '../LoadingIndicator/LoadingIndicator'
 import { StoryItem } from '../StoryItem/StoryItem'
 import './StoryList.css'
 
-export const StoryList = () => {
+interface StoryListProps {
+    onError: (error: Error) => void
+}
+
+export const StoryList = (props: StoryListProps) => {
     const [stories, setStories] = useState<Promise<Story>[]>([])
     const [getStoryPage, setStoryPageGenerator] = useState<ReturnType<typeof createPageGenerator>>()
     const [hasMore, setHasMore] = useState(true)
@@ -19,15 +23,19 @@ export const StoryList = () => {
             if (!getStoryPage) {
                 return
             }
-            const newPage = await getStoryPage.next()
-            if (newPage.done) {
-                setHasMore(false)
-                return
+            try {
+                const newPage = await getStoryPage.next()
+                if (newPage.done) {
+                    setHasMore(false)
+                    return
+                }
+                const newStories = newPage.value.map((storyId) => getStory(storyId))
+                setStories((stories) => stories.concat(newStories))
+            } catch (e) {
+                props.onError(e)
             }
-            const newStories = newPage.value.map((storyId) => getStory(storyId))
-            setStories((stories) => stories.concat(newStories))
         },
-        [getStoryPage],
+        [getStoryPage, props],
     )
 
     // set pagination generator

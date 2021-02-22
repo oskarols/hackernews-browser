@@ -35,7 +35,7 @@ describe('StoryList', () => {
             yield [1, 2, 3]
             yield [4, 5, 6]
         })
-        render(<StoryList />)
+        render(<StoryList onError={() => {}} />)
         const articles = await screen.findAllByRole('article')
         expect(articles).toHaveLength(3)
         expect(mockedCreatePageGenerator).toHaveBeenCalledTimes(1)
@@ -51,7 +51,7 @@ describe('StoryList', () => {
             fetchMoreStories = props.next
             return <div>{props.children}</div>
         })
-        render(<StoryList />)
+        render(<StoryList onError={() => {}} />)
         await screen.findAllByRole('article')
         fetchMoreStories()
         await waitFor(async () => {
@@ -59,5 +59,22 @@ describe('StoryList', () => {
             expect(articles).toHaveLength(6)
         })
         expect(mockedCreatePageGenerator).toHaveBeenCalledTimes(1)
+    })
+
+    it('propagates error from fetch stories to onError handler', async () => {
+        const error = new Error('mock error')
+        // eslint-disable-next-line require-yield
+        mockedCreatePageGenerator.mockImplementation(async function* test() {
+            throw error
+        })
+        mockedInfiniteScroll.mockImplementation((props) => {
+            return <div>{props.children}</div>
+        })
+        const onErrorHandler = jest.fn()
+        render(<StoryList onError={onErrorHandler} />)
+        await waitFor(async () => {
+            expect(onErrorHandler).toHaveBeenCalledTimes(1)
+            expect(onErrorHandler).toHaveBeenCalledWith(error)
+        })
     })
 })
