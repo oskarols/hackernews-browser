@@ -6,6 +6,9 @@ interface DateTimeProps {
     timestamp: number
 }
 
+/**
+ * Shows timestamp in readable form
+ */
 export const RelativeTime = (props: DateTimeProps) => {
     const date = new Date(props.timestamp * 1000)
     const timeago = formatRelative(date, Date.now())

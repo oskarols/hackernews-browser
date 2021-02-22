@@ -12,6 +12,9 @@ interface StoryItemProps {
     storyData: Promise<Story>
 }
 
+/**
+ * Render a hacker news story.
+ */
 export const StoryItem = (props: StoryItemProps) => {
     const [story, setStoryData] = useState<Story>()
 

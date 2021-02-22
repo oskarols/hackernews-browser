@@ -1,7 +1,5 @@
 import { Overwrite } from '../lib/ts-utilities'
 
-export type NewStoriesResponse = number[]
-
 export interface Story {
     by: string
     descendants: number
@@ -38,7 +36,7 @@ export const ASK_HN_URL = 'https://news.ycombinator.com/item?id='
 export const getNewStoryIds = (): Promise<number[]> => {
     return fetch(NEW_STORIES_URL, { mode: 'cors' })
         .then((response) => {
-            return (response.json() as unknown) as Promise<number[]> // TODO fix type
+            return response.json() as Promise<number[]>
         })
         .catch((e) => {
             throw new Error('Unable to fetch stories')
@@ -50,9 +48,8 @@ export const getNewStoryIds = (): Promise<number[]> => {
  * @param storyId
  */
 export const getStory = (storyId: number): Promise<Story> => {
-    // TODO: fix the url template here somehow
     return fetch(STORY_URL_TEMPLATE + storyId + '.json', { mode: 'cors' })
-        .then((response) => (response.json() as unknown) as Promise<StoryResponse>)
+        .then((response) => response.json() as Promise<StoryResponse>)
         .then((story) =>
             isAskHNStory(story)
                 ? ({

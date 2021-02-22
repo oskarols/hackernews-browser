@@ -11,6 +11,9 @@ interface StoryListProps {
     onError: (error: Error) => void
 }
 
+/**
+ * Does an infinite scroll of hacker news stories.
+ */
 export const StoryList = (props: StoryListProps) => {
     const [stories, setStories] = useState<Promise<Story>[]>([])
     const [getStoryPage, setStoryPageGenerator] = useState<ReturnType<typeof createPageGenerator>>()
