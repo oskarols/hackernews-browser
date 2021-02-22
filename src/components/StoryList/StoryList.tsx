@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { createPageGenerator } from '../../lib/createPageGenerator'
+import { pageGenerator } from '../../lib/pageGenerator'
 import { getPaginationSize } from '../../lib/getPaginationSize'
 import { getStory, Story } from '../../services/hackernews-service'
 import { LoadingIndicator } from '../LoadingIndicator/LoadingIndicator'
@@ -16,7 +16,7 @@ interface StoryListProps {
  */
 export const StoryList = (props: StoryListProps) => {
     const [stories, setStories] = useState<Promise<Story>[]>([])
-    const [getStoryPage, setStoryPageGenerator] = useState<ReturnType<typeof createPageGenerator>>()
+    const [getStoryPage, setStoryPageGenerator] = useState<ReturnType<typeof pageGenerator>>()
     const [hasMore, setHasMore] = useState(true)
     const STORY_ITEM_HEIGHT = 40
 
@@ -44,7 +44,7 @@ export const StoryList = (props: StoryListProps) => {
     // set pagination generator
     useEffect(() => {
         const pageSize = getPaginationSize(STORY_ITEM_HEIGHT)
-        setStoryPageGenerator(createPageGenerator(pageSize))
+        setStoryPageGenerator(pageGenerator(pageSize))
     }, [])
 
     // initial fetch of stories

@@ -1,18 +1,18 @@
 import { resolve } from 'path'
 import { getNewStoryIds } from '../../services/hackernews-service'
-import { createPageGenerator } from '../createPageGenerator'
+import { pageGenerator } from '../createPageGenerator'
 
 jest.mock('../../services/hackernews-service')
 const mockGetNewStoryIds = (getNewStoryIds as unknown) as jest.Mock
 
-describe('createPageGenerator', () => {
+describe('pageGenerator', () => {
     beforeEach(() => {
         jest.clearAllMocks()
     })
 
     it('can be used to paginate over numbers', () => {
         mockGetNewStoryIds.mockResolvedValue(Promise.resolve([1, 2, 3, 4, 5]))
-        const paginator = createPageGenerator(2)
+        const paginator = pageGenerator(2)
         expect(paginator.next()).resolves.toStrictEqual(expect.objectContaining({ value: [1, 2] }))
         expect(paginator.next()).resolves.toStrictEqual(expect.objectContaining({ value: [3, 4] }))
         expect(paginator.next()).resolves.toStrictEqual(expect.objectContaining({ value: [5] }))
@@ -26,7 +26,7 @@ describe('createPageGenerator', () => {
     it('does not mutate the input', async () => {
         const input = [1, 2, 3, 4, 5]
         mockGetNewStoryIds.mockResolvedValue(input)
-        const paginator = createPageGenerator(2)
+        const paginator = pageGenerator(2)
         let iterationResult
         while (iterationResult?.done === false) {
             iterationResult = await paginator.next()
