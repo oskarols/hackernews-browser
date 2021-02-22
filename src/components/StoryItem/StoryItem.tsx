@@ -20,9 +20,7 @@ export const StoryItem = (props: StoryItemProps) => {
             .then((story) => {
                 setStoryData(story)
             })
-            .catch(() => {
-                // TODO
-            })
+            .catch(() => {})
     }, [props.storyData])
 
     if (story === undefined) {

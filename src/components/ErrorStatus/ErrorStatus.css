@@ -1,0 +1,7 @@
+.ErrorStatus {
+    margin: 5px 10px;
+    padding: 5px 10px;
+    color: white;
+    background-color: #f33;
+    border-radius: 5px;
+}
