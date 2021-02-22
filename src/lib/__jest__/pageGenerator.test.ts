@@ -1,6 +1,5 @@
-import { resolve } from 'path'
 import { getNewStoryIds } from '../../services/hackernews-service'
-import { pageGenerator } from '../createPageGenerator'
+import { pageGenerator } from '../pageGenerator'
 
 jest.mock('../../services/hackernews-service')
 const mockGetNewStoryIds = (getNewStoryIds as unknown) as jest.Mock

@@ -1,6 +1,6 @@
 import React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { createPageGenerator } from '../../../lib/createPageGenerator'
+import { pageGenerator } from '../../../lib/pageGenerator'
 import { StoryItem } from '../../StoryItem/StoryItem'
 import { render, waitFor, screen, act } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
@@ -11,13 +11,13 @@ jest.mock('react-infinite-scroll-component', () => ({
     __esModule: true,
     default: jest.fn(),
 }))
-jest.mock('../../../lib/createPageGenerator', () => ({
-    createPageGenerator: jest.fn(),
+jest.mock('../../../lib/pageGenerator', () => ({
+    pageGenerator: jest.fn(),
 }))
 
 const mockedStoryItem = StoryItem as jest.Mock
 const mockedInfiniteScroll = InfiniteScroll as jest.Mock
-const mockedCreatePageGenerator = createPageGenerator as jest.Mock
+const mockedPageGenerator = pageGenerator as jest.Mock
 
 describe('StoryList', () => {
     beforeEach(() => {
@@ -31,18 +31,18 @@ describe('StoryList', () => {
     })
 
     it('requests an initial set of stories and renders items for them', async () => {
-        mockedCreatePageGenerator.mockImplementation(async function* test() {
+        mockedPageGenerator.mockImplementation(async function* test() {
             yield [1, 2, 3]
             yield [4, 5, 6]
         })
         render(<StoryList onError={() => {}} />)
         const articles = await screen.findAllByRole('article')
         expect(articles).toHaveLength(3)
-        expect(mockedCreatePageGenerator).toHaveBeenCalledTimes(1)
+        expect(mockedPageGenerator).toHaveBeenCalledTimes(1)
     })
 
     it('requests even more stories via the InfiniteScroll component', async () => {
-        mockedCreatePageGenerator.mockImplementation(async function* test() {
+        mockedPageGenerator.mockImplementation(async function* test() {
             yield [1, 2, 3]
             yield [4, 5, 6]
         })
@@ -58,13 +58,13 @@ describe('StoryList', () => {
             const articles = await screen.findAllByRole('article')
             expect(articles).toHaveLength(6)
         })
-        expect(mockedCreatePageGenerator).toHaveBeenCalledTimes(1)
+        expect(mockedPageGenerator).toHaveBeenCalledTimes(1)
     })
 
     it('propagates error from fetch stories to onError handler', async () => {
         const error = new Error('mock error')
         // eslint-disable-next-line require-yield
-        mockedCreatePageGenerator.mockImplementation(async function* test() {
+        mockedPageGenerator.mockImplementation(async function* test() {
             throw error
         })
         mockedInfiniteScroll.mockImplementation((props) => {
