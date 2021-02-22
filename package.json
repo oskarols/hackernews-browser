@@ -32,7 +32,8 @@
         "workbox-streams": "^5.1.3"
     },
     "scripts": {
-        "start": "react-scripts start",
+        "start:dev": "react-scripts start",
+        "start": "yarn build && serve -s build",
         "build": "react-scripts build",
         "lint": "eslint 'src/**.{ts,tsx}'",
         "lint:fix": "eslint --fix 'src/**.{ts,tsx}'",
@@ -67,6 +68,7 @@
         "eslint-plugin-prettier": "^3.3.1",
         "eslint-plugin-react": "^7.22.0",
         "prettier": "^2.2.1",
-        "prettier-plugin-style-order": "^0.2.2"
+        "prettier-plugin-style-order": "^0.2.2",
+        "serve": "^11.3.2"
     }
 }
