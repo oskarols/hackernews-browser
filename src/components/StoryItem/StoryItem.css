@@ -2,28 +2,28 @@ body {
     counter-reset: stories;
 }
 
-.story h2::before {
+.Story h2::before {
     color: gray;
     content: counter(stories) '. ';
     counter-increment: stories;
 }
 
-.story {
+.Story {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: flex-start;
     min-height: 40px;
     padding: 15px;
 }
 
-.story.withcontent {
+.Story.Withcontent {
     border-bottom: 2px solid lightgray;
     animation: fadein 1s;
 }
 
 h2 {
-    justify-content: start;
+    justify-content: flex-start;
     order: 1;
     margin: 0;
     padding: 0;
@@ -35,7 +35,7 @@ h2 a {
     text-decoration: none;
 }
 
-.metadata {
+.Metadata {
     flex-basis: 100%;
     order: 2;
     margin: 0;
